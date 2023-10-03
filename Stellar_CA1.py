@@ -9,13 +9,13 @@ import matplotlib.pyplot as plt
 ##################
 
 # Physical constants
-c = 29979245800 # cm/s
+c = 2.99792458e10 # cm/s
 h = 6.62607015e-27 # erg s
 kb = 1.380649e-16 # erg/K 
 
 # Flux given wavelength (l) and temperature (T) in cgs units.
 def flux(l, T):
-    return (2*np.pi*h*c**2)/(l**5) * 1/(np.exp( (h*c)/(l*kb*T) ) - 1) # erg s^-1 cm^-3
+    return (2*np.pi*h*c**2)/(l**5) * 1/(np.exp((h*c)/(l*kb*T)) - 1) # erg s^-1 cm^-3 equivalent to erg s^-1 cm^-2 angstrom^-1
 
 wavelengths = np.arange(200e-8, 20000e-8, 1e-10) # in cm
 fluxes = flux(wavelengths, 6451)
@@ -27,12 +27,12 @@ max_flux_loc = np.where(fluxes == max(fluxes))[0]
 peak_wavelength = wavelengths[max_flux_loc-1].item() * 10**8 # convert to angstrom
 
 # Plot
-plt.plot(wavelengths * 10**8, fluxes, label="'My star', T = 6451 K") # Convert to angstroms before plotting
+plt.plot(wavelengths * 10**8, fluxes, label="'My star', T = 6451 K") # Convert to angstroms while plotting
 plt.xlabel("$\lambda$ ($\AA$)")
 plt.ylabel("F$_{\lambda}$ (erg s$^{-1}$ cm$^{-2}$ $\AA^{-1}$)")
 plt.title("The flux (F$_{\lambda}$) per unit wavelength ($\lambda$) of a star\nwith a stellar temperature of 6451 K")
 plt.legend()
-plt.annotate("Peak of my\nstar's spectrum,\n$\lambda$ = " + str(np.rint(peak_wavelength))[0:-1] + " $\AA$", xy=(peak_wavelength, max(fluxes)), xytext=(4000,0.4e15), arrowprops=dict(arrowstyle="->"))
+plt.annotate("Peak of my\nstar's spectrum,\n$\lambda$ = " + str(np.rint(peak_wavelength))[0:-1] + " $\AA$\nF$_{\lambda}$ = "+str(np.format_float_scientific(max(fluxes),3))+"\nergs s$^{-1}$ cm$^{-2}$ $\AA^{-1}$", xy=(peak_wavelength, max(fluxes)), xytext=(4000,0.2e15), arrowprops=dict(arrowstyle="->"))
 plt.savefig("blackbody.png")
 plt.close()
 
@@ -71,8 +71,8 @@ plt.xlabel("$\lambda$ ($\AA$)")
 plt.ylabel("F$_{\lambda}$ (erg s$^{-1}$ cm$^{-2}$ $\AA^{-1}$)")
 plt.title("The flux (F$_{\lambda}$) per unit wavelength ($\lambda$) of a star\nwith T = 6451 K and Proxima Centauri")
 plt.legend()
-plt.annotate("Peak of my\nstar's spectrum,\n$\lambda$ = " + str(np.rint(peak_wavelength))[0:-1] + " $\AA$", xy=(peak_wavelength, max(fluxes)), xytext=(4000,0.4e15), arrowprops=dict(arrowstyle="->"))
-plt.annotate("Peak of Proxima\nCentauri's spectrum,\n$\lambda$ = " + str(np.rint(pc_peak_wavelength))[0:-1] + " $\AA$", xy=(pc_peak_wavelength, max(pc_fluxes)), xytext=(10000,0.6e15), arrowprops=dict(arrowstyle="->"))
+plt.annotate("Peak of my\nstar's spectrum,\n$\lambda$ = " + str(np.rint(peak_wavelength))[0:-1] + " $\AA$\nF$_{\lambda}$ = "+str(np.format_float_scientific(max(fluxes),3))+"\nergs s$^{-1}$ cm$^{-2}$ $\AA^{-1}$", xy=(peak_wavelength, max(fluxes)), xytext=(4000,0.2e15), arrowprops=dict(arrowstyle="->"))
+plt.annotate("Peak of Proxima\nCentauri's spectrum,\n$\lambda$ = " + str(np.rint(pc_peak_wavelength))[0:-1] + " $\AA$\nF$_{\lambda}$ = "+str(np.format_float_scientific(max(pc_fluxes),3))+"\nergs s$^{-1}$ cm$^{-2}$ $\AA^{-1}$", xy=(pc_peak_wavelength, max(pc_fluxes)), xytext=(10000,0.6e15), arrowprops=dict(arrowstyle="->"))
 plt.savefig("blackbody_both.png")
 plt.close()
 
@@ -82,7 +82,7 @@ plt.xlabel("$\lambda$ ($\AA$)")
 plt.ylabel("F$_{\lambda}$ (erg s$^{-1}$ cm$^{-2}$ $\AA^{-1}$)")
 plt.title("The flux (F$_{\lambda}$) per unit wavelength ($\lambda$) of Proxima Centauri")
 plt.legend()
-plt.annotate("Peak of Proxima\nCentauri's spectrum,\n$\lambda$ = " + str(np.rint(pc_peak_wavelength))[0:-1] + " $\AA$", xy=(pc_peak_wavelength, max(pc_fluxes)), xytext=(10000,0.6e13), arrowprops=dict(arrowstyle="->"))
+plt.annotate("Peak of Proxima\nCentauri's spectrum,\n$\lambda$ = " + str(np.rint(pc_peak_wavelength))[0:-1] + " $\AA$\nF$_{\lambda}$ = "+str(np.format_float_scientific(max(pc_fluxes),3))+"\nergs s$^{-1}$ cm$^{-2}$ $\AA^{-1}$", xy=(pc_peak_wavelength, max(pc_fluxes)), xytext=(10000,0.6e13), arrowprops=dict(arrowstyle="->"))
 plt.savefig("blackbody_PC.png")
 plt.close()
 
